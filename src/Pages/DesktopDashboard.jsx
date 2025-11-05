@@ -22,7 +22,7 @@ function DesktopDashboard() {
     return(
        <div className="hidden lg:flex flex-col gap-4 h-[100vh] rounded-2xl overflow-hidden">
   {/* Left Section */}
-  <div className="p-5 bg-[#f2f2f2] flex-1 lg:w-[50%] mx-auto dark:bg-gray-900 dark:text-white rounded-2xl overflow-y-auto">
+ <div className="p-5 bg-[#f2f2f2] lg:w-[50%] mx-auto dark:bg-gray-900 dark:text-white rounded-2xl">
     <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 
     <div className="grid grid-cols-2 gap-6 mb-4">

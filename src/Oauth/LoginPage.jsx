@@ -5,10 +5,55 @@ import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import lightBg from "../assets/lightMode.png";
 import darkBg from "../assets/darkMode.png";
+import { loginUser } from "../api";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+
 
 function LoginPage() {
-
   const navigate = useNavigate();
+
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  }
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await loginUser(credentials);
+    console.log("Login successful:", response);
+    alert("Login successful!");
+
+    if (response.token) {
+      localStorage.setItem("token", response.token);
+    }
+    
+   if (response.user_id) {
+    localStorage.setItem("userId", response.user_id);
+   }
+    
+
+
+
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Login failed:", error);
+    alert("Login failed. Please check your credentials and try again.");
+  }
+};
+
+
+  
 
  const login = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
@@ -50,9 +95,9 @@ function LoginPage() {
       {/* Login Card */}
       <div className=" relative z-10 flex items-center justify-center min-h-screen">
         <div
-          className="lg:w-[90%] md:w-1/2 max-w-[600px] h-[70%] px-20 py-15 rounded-2xl
+          className="h-full lg:w-[90%] md:w-1/2 max-w-[600px] px-20 p-10 rounded-2xl
          md:bg-white/10 lg:bg-white/10 md:dark:bg-black/100 lg:dark:bg-black/100 lg:backdrop-blur-lg
-          shadow-2xl dark:text-white"
+          md:shadow-2xl dark:text-white"
         >
           <h2 className="text-3xl font-bold mb-1 text-center">Welcome Back</h2>
           <p className="mb-6 text-center text-xs">
@@ -60,18 +105,33 @@ function LoginPage() {
             <Link to="/signup"  className="text-blue-500 dark:text-blue-700 cursor-pointer">Sign Up</Link>
           </p>
 
-          <form className="flex flex-col gap-6">
+          <form className="flex flex-col gap-6" onSubmit={handleLogin}>
             <input
-              type="text"
+              type="email"
+              name="email"
+              value={credentials.email}
+              onChange={handleChange}
               placeholder="Username or Email"
               className="p-3 px-10 rounded-[10px] border focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="p-3 px-10 w-full rounded-[10px] border focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={credentials.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className="p-3 px-10 w-full rounded-[10px] border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <FaEye /> :  <FaEyeSlash /> }
+                </button>
+              </div>
               <p className="text-xs px-10 mt-1 text-blue-500 dark:text-blue-700  cursor-pointer">
                 Forgotten Password?
               </p>
@@ -80,7 +140,7 @@ function LoginPage() {
               type="submit"
               className="mt-4 mb-7 bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition"
             >
-              Sign Up
+              Log In
             </button>
           </form>
 

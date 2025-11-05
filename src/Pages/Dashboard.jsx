@@ -1,4 +1,4 @@
-
+ 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons'
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons'
@@ -7,18 +7,27 @@ import { useTransactions } from '../Context/TransactionContext';
 import { useNavigate } from "react-router-dom";
 import {Plus} from "lucide-react"
 import DesktopDashboard from './DesktopDashboard';
+import {useEffect, useState} from "react";
+
 
 
 function Dashboard() {
-    const {transactions} = useTransactions();
-    const navigate = useNavigate();
-    
-    navigate("/transactions");
+   const { transactions, loading } = useTransactions();
+  const navigate = useNavigate();
 
-     const income = transactions.filter((t) => t.type === "income").reduce((acc, curr) => acc + curr.amount, 0);
+  if (loading) {
+    return <p className="text-center mt-10">Loading transactions...</p>;
+  }
 
-    const expenses = transactions.filter((t) => t.type === "expense").reduce((acc, curr) => acc + curr.amount, 0);
-    const balance = income - expenses;    
+  const income = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, curr) => acc + curr.amount, 0);
+
+  const expenses = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((acc, curr) => acc + curr.amount, 0);
+
+  const balance = income - expenses; 
     return(
         <>
             <div className="min-h-screen p-5 bg-[#f2f2f2] lg:w-[50%] lg:mx-auto dark:bg-gray-900 dark:text-white block lg:hidden">
@@ -51,7 +60,8 @@ function Dashboard() {
                         </div>
                         <div className="rounded-md mt-3 border-white">
                         {transactions.length === 0 ? (
-                            <p className="p-3 text-gray-500 text-center text-sm">No transactions yet. <br></br> Create your first transaction</p>
+                            <p className="p-3 text-gray-500 text-center text-sm">No transactions yet. 
+                            <br></br> Create your first transaction</p>
                         ) : (
                             [...transactions]
                             .sort((a, b) => new Date(b.date + " " + b.time) - new Date(a.date + " " + a.time)).slice(0, 3).map((t) => (
