@@ -10,7 +10,9 @@ function FullTransaction() {
   const navigate = useNavigate();
   const { transactions } = useTransactions();
 
-  const transaction = transactions.find((t) => t.id.toString() === id);
+  const transaction = transactions.find(
+  (t) => (t._id || t.id)?.toString() === id
+  );
 
   if (!transaction) {
     return (

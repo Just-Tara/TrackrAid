@@ -8,44 +8,56 @@ import FullTransaction from "./Pages/FullTransaction";
 import ChartBox from "./Component/ChartBox";
 import LoginPage from "./Oauth/LoginPage";
 import SignUpPage from "./Oauth/SigninPage";
-import Onboarding from "./OnboardingFlow/Onboarding";
-import TestAPI from "./TestAPI";
+import Onboarding from "./OnboardingFlow/onBoarding";
+
 function App() {
-{/** return(
-<TestAPI />
-);
+  const location = useLocation();
+  const hideNavBar =
+    location.pathname === "/add-transaction" ||
+    location.pathname === "/login-page" ||
+    location.pathname === "/onboarding" ||
+    location.pathname === "/" ||
+    location.pathname === "/signup";
 
-*/}
-
- const location = useLocation();
-  const hideNavBar = location.pathname === "/add-transaction" || location.pathname === "/login-page" || location.pathname === "/onboarding";
-
-  const isLoggedIn = localStorage.getItem("authToken"); 
+  const needsOnboarding = localStorage.getItem("needsOnboarding") === "true";
 
   return (
-    <div className="bg-white dark:bg-[#0b1220]">
+    <div className="h-screen w-full overflow-hidden bg-white dark:bg-[#0b1220] relative">
       {!hideNavBar && (
         <>
           <NavBar />
           <ChartBox />
-         
         </>
       )}
 
-      <Routes>
- 
-        <Route path="/" element= { <LoginPage /> } />
-        <Route path="/onboarding" element={ <Onboarding/> }/>
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        <Route path="/transactions" element={ <TransactionPage/>}/>
-        <Route path="/settings" element={ <Settings /> }/>
-        <Route path="/add-transaction" element={ <AddTransaction />}/>
-        <Route path="/full-transaction/:id" element={<FullTransaction />} />
-    
-      </Routes>
+      <main
+        className={
+          !hideNavBar
+            ? "h-screen overflow-y-auto mx-auto"
+            : "h-screen overflow-y-auto"
+        }
+      >
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+
+          
+          <Route
+            path="/onboarding"
+            element={
+              needsOnboarding ? <Onboarding /> : <Navigate to="/dashboard" replace />
+            }
+          />
+
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/transactions" element={<TransactionPage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/add-transaction" element={<AddTransaction />} />
+          <Route path="/full-transaction/:id" element={<FullTransaction />} />
+        </Routes>
+      </main>
     </div>
-  ); 
+  );
 }
 
 export default App;
