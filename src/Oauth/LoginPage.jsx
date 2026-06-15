@@ -14,7 +14,6 @@ function LoginPage() {
 
   const [credentials, setCredentials] = useState({
     email: "",
-    username: "",
     password: "",
   });
 
@@ -34,7 +33,16 @@ function LoginPage() {
     setSuccess("");
 
     try {
-      const response = await loginUser(credentials);
+      const isEmail = credentials.email.includes("@");
+
+      const payload = {
+        password: credentials.password,
+        ...(isEmail
+          ? { email: credentials.email }
+          : { username: credentials.email }),
+      };
+
+      const response = await loginUser(payload);
 
       if (response.token) {
         localStorage.setItem("token", response.token);
@@ -44,7 +52,6 @@ function LoginPage() {
         localStorage.setItem("userId", response.data.id);
       }
 
-      // Save user info so dashboard/settings can read name + email
       const userInfo = {
         username: response.data?.username || credentials.email,
         email: response.data?.email || credentials.email,
@@ -72,7 +79,6 @@ function LoginPage() {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         });
         const userInfo = await res.json();
-        // Google returns name, email, picture — normalise to same shape
         localStorage.setItem("user", JSON.stringify({
           username: userInfo.name,
           email: userInfo.email,
