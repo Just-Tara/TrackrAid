@@ -7,7 +7,7 @@ import AddTransaction from "./Pages/AddTransaction";
 import FullTransaction from "./Pages/FullTransaction";
 import ChartBox from "./Component/ChartBox";
 import LoginPage from "./Oauth/LoginPage";
-import SignUpPage from "./Oauth/SigninPage";
+import SignUpPage from "./Oauth/SignupPage";
 import Onboarding from "./OnboardingFlow/Onboarding";
 
 
