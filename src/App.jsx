@@ -61,6 +61,8 @@ function App() {
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
           <Route path="/full-transaction/:id" element={<ProtectedRoute><FullTransaction /></ProtectedRoute>} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </div>
