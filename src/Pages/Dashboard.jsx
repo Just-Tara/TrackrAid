@@ -11,7 +11,7 @@ import { Plus, ArrowRight } from "lucide-react";
 import DesktopDashboard from "./DesktopDashboard";
 import { useCurrency } from "../Context/CurrencyContext";
 import { formatCurrency } from "../utils/formatCurrency";
-import TrackrAidLogo from "../Component/TrackrAidLogo";
+
 
 const iconMap = {
   money: faMoneyBillWave, gift: faGift, chart: faChartLine,
@@ -104,7 +104,7 @@ function Dashboard() {
         {/* Greeting header */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <TrackrAidLogo variant="icon" size={45} />
+            
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">{getGreeting()},</p>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{name}</h1>
