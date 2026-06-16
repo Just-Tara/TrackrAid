@@ -10,6 +10,14 @@ import LoginPage from "./Oauth/LoginPage";
 import SignUpPage from "./Oauth/SigninPage";
 import Onboarding from "./OnboardingFlow/onBoarding";
 
+
+
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+  if (!token) return <Navigate to="/" replace />;
+  return children;
+}
+
 function App() {
   const location = useLocation();
   const hideNavBar =
@@ -48,12 +56,11 @@ function App() {
             }
           />
 
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<TransactionPage />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/add-transaction" element={<AddTransaction />} />
-          <Route path="/full-transaction/:id" element={<FullTransaction />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/transactions" element={<ProtectedRoute><TransactionPage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
+          <Route path="/full-transaction/:id" element={<ProtectedRoute><FullTransaction /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
