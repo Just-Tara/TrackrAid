@@ -14,7 +14,7 @@ function TrackrAidLogo({ variant = "full", size = 40, className = "" }) {
       {/* Squircle badge */}
       <rect width="40" height="40" rx="12" fill="#2563eb" />
 
-      {/* Upward arc / trend line that resolves into a checkmark */}
+      {/* Checkmark path */}
       <path
         d="M9 24 L15 18 L20 22 L31 11"
         stroke="white"
