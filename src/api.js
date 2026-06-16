@@ -25,6 +25,12 @@ export const signupUser = async (data) => {
   const res = await API.post("/auth/signup", data);
   return res.data;
 };
+// GOOGLE OAUTH LOGIN
+
+export const googleLoginUser = async (accessToken) => {
+    const res = await API.post("/auth/google", { accessToken });
+    return res.data;
+};
 
 // GET TRANSACTIONS
 

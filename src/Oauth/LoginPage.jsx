@@ -7,6 +7,7 @@ import darkBg from "../assets/darkMode.png";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTransactions } from "../Context/TransactionContext";
+import { googleLoginUser } from "../api";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -74,25 +75,25 @@ function LoginPage() {
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      try {
-        const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-        const userInfo = await res.json();
-        localStorage.setItem("user", JSON.stringify({
-          username: userInfo.name,
-          email: userInfo.email,
-          name: userInfo.name,
-          picture: userInfo.picture,
-        }));
-        navigate("/dashboard");
-        await fetchTransactions();
-      } catch (err) {
-        console.error("Google login failed:", err);
-      }
+        try {
+            const response = await googleLoginUser(tokenResponse.access_token);
+            
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("userId", response.data.id);
+            localStorage.setItem("user", JSON.stringify({
+                username: response.data.username,
+                email: response.data.email,
+                name: response.data.username,
+            }));
+
+            await fetchTransactions();
+            navigate("/dashboard");
+        } catch (err) {
+            console.error("Google login failed:", err);
+        }
     },
     onError: () => console.log("Google Login Failed"),
-  });
+});
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">

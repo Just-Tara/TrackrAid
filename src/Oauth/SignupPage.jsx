@@ -6,6 +6,7 @@ import lightBg from "../assets/lightMode.png";
 import darkBg from "../assets/darkMode.png";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { googleLoginUser } from "../api.js";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function SignUpPage() {
       };
       localStorage.setItem("user", JSON.stringify(userInfo));
 
-      // Mark this as a brand-new account so onboarding shows once
+     
       localStorage.setItem("needsOnboarding", "true");
 
       setSuccess("Account created successfully!");
@@ -56,27 +57,24 @@ function SignUpPage() {
 
   const signup = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      try {
-        const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-        const userInfo = await userInfoResponse.json();
-        localStorage.setItem("user", JSON.stringify({
-          username: userInfo.name,
-          email: userInfo.email,
-          name: userInfo.name,
-          picture: userInfo.picture,
-        }));
+        try {
+            const response = await googleLoginUser(tokenResponse.access_token);
+            
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("userId", response.data.id);
+            localStorage.setItem("user", JSON.stringify({
+                username: response.data.username,
+                email: response.data.email,
+                name: response.data.username,
+            }));
 
-        // Mark this as a brand-new account so onboarding shows once
-        localStorage.setItem("needsOnboarding", "true");
-
-        navigate("/onboarding");
-      } catch (error) {
-        console.error("Google signup failed:", error);
-      }
+            localStorage.setItem("needsOnboarding", "true");
+            navigate("/onboarding");
+        } catch (err) {
+            console.error("Google signup failed:", err);
+        }
     },
-    onError: () => console.log("Google Sign Up Failed"),
+    onError: () => console.log("Google Signup Failed"),
   });
 
   return (
