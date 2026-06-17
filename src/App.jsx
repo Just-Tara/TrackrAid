@@ -9,6 +9,7 @@ import ChartBox from "./Component/ChartBox";
 import LoginPage from "./Oauth/LoginPage";
 import SignUpPage from "./Oauth/SignupPage";
 import Onboarding from "./OnboardingFlow/Onboarding";
+import LandingPage from "./Pages/LandingPage";
 
 
 
@@ -46,7 +47,8 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           
           <Route

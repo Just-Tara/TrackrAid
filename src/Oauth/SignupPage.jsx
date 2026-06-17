@@ -88,7 +88,7 @@ function SignUpPage() {
           <h2 className="text-3xl font-bold mb-1 text-center">Create Account</h2>
           <p className="mb-6 text-center text-xs">
             Already have an account?{" "}
-            <Link to="/" className="text-blue-500 dark:text-blue-700 cursor-pointer">Sign In</Link>
+            <Link to="/login" className="text-blue-500 dark:text-blue-700 cursor-pointer">Sign In</Link>
           </p>
 
           {error && <div className="mb-4 rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
