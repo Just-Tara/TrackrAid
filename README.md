@@ -9,7 +9,7 @@ This project helps you manage your personal finances effortlessly. It lets you e
 Managing your money can feel like a chore, but it doesn't have to be. TrackrAid is a modern, intuitive expense tracker designed to simplify your financial life. It helps you effortlessly record daily transactions, visualize your spending patterns, and stay on top of your budget, all within a clean and responsive interface. Whether you're tracking small daily coffees or major monthly bills, TrackrAid gives you the clarity you need to make smarter financial decisions.
 
 ## Live link
-(https://trackr-aid.vercel.app/)
+[TrackrAid](https://trackr-aid.vercel.app/)
 
 ## Usage
 
