@@ -175,7 +175,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0">
-            TrackerAid helps you log income and expenses, spot spending patterns, and stay in control — without the overwhelm.
+            TrackrAid helps you log income and expenses, spot spending patterns, and stay in control — without the overwhelm.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
@@ -290,7 +290,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <TrackrAidLogo variant="full" size={28} />
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} TrackerAid. Built with 💙 by Tara.
+            © {new Date().getFullYear()} TrackrAid. Built with 💙 by Tara.
           </p>
           <div className="flex gap-4 text-sm text-gray-400">
             <button onClick={() => navigate("/login")} className="cursor-pointer hover:text-gray-700 dark:hover:text-white transition">Login</button>
