@@ -58,3 +58,7 @@ export const exportData = async (token) => {
   })
   return res.data
 }
+export const getSummary = async () => {
+  const res = await API.get('/transactions/summary');
+  return res.data
+}

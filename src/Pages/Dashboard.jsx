@@ -11,6 +11,8 @@ import { Plus, ArrowRight } from "lucide-react";
 import DesktopDashboard from "./DesktopDashboard";
 import { useCurrency } from "../Context/CurrencyContext";
 import { formatCurrency } from "../utils/formatCurrency";
+import {getSummary} from "../api"
+import { useState, useEffect } from "react";
 
 
 const iconMap = {
@@ -73,6 +75,21 @@ function Dashboard() {
   const { transactions, loading } = useTransactions();
   const navigate = useNavigate();
   const { currency } = useCurrency();
+  const [summary, setSummary] = useState({ totalIncome: 0, totalExpense: 0, balance: 0 });
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const res = await getSummary();
+        if (res.success) {
+          setSummary(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchSummary();
+  }, [transactions]); 
 
   if (loading) {
     return (
@@ -85,9 +102,10 @@ function Dashboard() {
     );
   }
 
-  const income = transactions.filter((t) => t.type === "income").reduce((acc, curr) => acc + curr.amount, 0);
-  const expenses = transactions.filter((t) => t.type === "expense").reduce((acc, curr) => acc + curr.amount, 0);
-  const balance = income - expenses;
+  const income = summary.totalIncome;
+  const expenses = summary.totalExpense;
+  const balance = summary.balance;
+    
 
   const sorted = [...transactions]
     .sort((a, b) => new Date(b.date + " " + b.time) - new Date(a.date + " " + a.time))

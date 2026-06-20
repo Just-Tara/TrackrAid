@@ -90,7 +90,10 @@ const handleSubmit = async (e) => {
     setError("Please fill all required fields");
     return;
   }
-
+  if (parseFloat(amount) > 1000000) {
+  setError("That's above our maximum transaction limit of 1,000,000,000");
+  return;
+}
   setLoading(true);
   setError("");
   setSuccess("");
@@ -211,7 +214,12 @@ const handleSubmit = async (e) => {
               type="number"
               placeholder={`Amount (${currency})`}
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || parseFloat(value) <= 1000000) {
+                  setAmount(value);
+                }
+              }}
               className="px-2 py-2 border-b border-gray-200 w-full focus:outline-none"
             />
           </div>
