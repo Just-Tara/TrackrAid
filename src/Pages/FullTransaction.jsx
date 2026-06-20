@@ -29,7 +29,7 @@ function FullTransaction() {
   }
 
   return (
-    <div className="p-6 bg-[#f2f2f2] h-[100vh] dark:bg-gray-900 dark:text-white">
+   <div className="p-6 bg-[#f2f2f2] min-h-screen dark:bg-gray-900 dark:text-white lg:w-[50%] lg:mx-auto">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 mb-5 text-blue-500"
